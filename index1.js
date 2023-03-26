@@ -36,3 +36,24 @@ paint()
 price = 7000
 updateTotal()
 paint()
+
+const person = {
+  name: 'Sergei',
+  lastName: 'Balanov',
+}
+
+const proxy = new Proxy(person, {
+  get(target, key) {
+    if (key === 'fullName') {
+      return target.name + ' ' + target.lastName
+    }
+    return target[key]
+  },
+  set(target, key, value) {
+    if (key === 'fullName') {
+      console.log("You can't change this field")
+      return
+    }
+    target[key] = value
+  }
+})
