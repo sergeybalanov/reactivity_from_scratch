@@ -23,7 +23,6 @@ const paint = () => {
 }
 
 
-
 const updateTotal = () => lunch.total = Math.ceil(lunch.price * (1 + lunch.tips / 100) / lunch.persons)
 
 let effect = null
@@ -34,33 +33,33 @@ const data = {
   persons: 3,
   total: 0,
 }
-const deps = {}
+const depsMap = new Map()
 
-// const lunch = new Proxy(data, {
-//   get(target, key) {
-//     if (effect) {
-//       let dep = deps[key]
-//
-//       if (!dep) deps[key] = (dep = [])
-//
-//       dep.push(effect)
-//     }
-//     return target[key]
-//   },
-//   set(target, key, value) {
-//     target[key] = value
-//
-//     const dep = deps[key]
-//     if (dep) {
-//       dep.forEach(effect => effect())
-//     }
-//   }
-// })
+const lunch = new Proxy(data, {
+  get(target, key) {
+    if (effect) {
+      let dep = depsMap.get(key)
+
+      if (!dep) depsMap.set(key, (dep = new Set()))
+
+      dep.add(effect)
+    }
+
+    return target[key]
+  },
+  set(target, key, value) {
+    target[key] = value
+
+    let dep = depsMap.get(key)
+    if (dep) {
+      dep.forEach(effect => effect())
+    }
+  }
+})
 
 effect = updateTotal
 effect()
 effect = null
 
 paint()
-
 

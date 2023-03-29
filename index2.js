@@ -35,7 +35,7 @@ const lunch = new Proxy(data, {
   set(target, key, value) {
     target[key] = value
 
-    if (key === 'price') {
+    if (key === 'price' || key === 'tips') {
       updateTotal()
     }
   }

@@ -35,13 +35,13 @@ const render = () => {
 }
 
 const updateTotal = () => lunch.total = Math.ceil(lunch.price * (1 + lunch.tips / 100) / lunch.persons)
-
-const lunch = observe({
+let data = {
   price: 6000,
   tips: 10,
   persons: 3,
   total: 0,
-})
+}
+let lunch = observe(data)
 
 let effect = null
 const watcher = (callback) => {

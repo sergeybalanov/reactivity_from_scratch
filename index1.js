@@ -57,3 +57,6 @@ const proxy = new Proxy(person, {
     target[key] = value
   }
 })
+
+
+proxy.name
