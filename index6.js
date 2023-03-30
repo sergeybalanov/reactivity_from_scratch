@@ -6,13 +6,25 @@ const render = () => {
             <tr>
                 <td>Общая стоимость:</td>
                 <td>${lunch.price}</td>
+                <td>
+                    <button @click="incrementPrice">+</button>
+                    <button @click="decrementPrice">-</button>
+                </td>
             </tr>
             <tr>
                 <td>Чаевые (%):</td>
                 <td>${lunch.tips}</td>
+                <td>
+                    <button @click="incrementTips">+</button>
+                    <button @click="decrementTips">-</button>
+                </td>
             </tr>
             <tr>
                 <td>Кол-во человек:</td><td>${lunch.persons}</td>
+                <td>
+                    <button @click="incrementPerson">+</button>
+                    <button @click="decrementPerson">-</button>
+                </td>
             </tr>
             <tr>
                 <td>Стоимость на человека:</td><td>${lunch.total}</td>
@@ -65,4 +77,34 @@ function observe(data) {
   })
 }
 
+const methods = {
+  incrementPrice() {
+    lunch.price += 100
+  },
+  decrementPrice() {
+    lunch.price -= 100
+  },
+  incrementTips() {
+    lunch.tips++
+  },
+  decrementTips() {
+    lunch.tips--
+  },
+  incrementPerson() {
+    lunch.persons++
+  },
+  decrementPerson() {
+    lunch.persons--
+  },
+}
 
+document.getElementById('app')
+  .addEventListener('click', event => {
+    const clickAttr = event.target.attributes['@click']
+    const methodName = clickAttr && clickAttr.value
+    const method = methods[methodName]
+
+    if (method) {
+      method()
+    }
+  })
